@@ -1,20 +1,22 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import React from 'react';
+// import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { use } from 'react';
 import { Link } from 'react-router';
-import { auth } from '../../firebase/firebase.init';
+// import { auth } from '../../firebase/firebase.init';
+import { AuthContext } from '../../context/AuthContext/AuthContext';
 
 const Register = () => {
+
+    const {createUser} = use(AuthContext);
+
+    console.log("From register",createUser);
 
     const handleRegister = e => {
         e.preventDefault();
 
         const email = e.target.email.value;
         const password = e.target.password.value;
-
-        console.log(email, password);
-
-        // create user
-        createUserWithEmailAndPassword(auth, email, password)
+        
+        createUser(email, password)
         .then(result => {
             console.log(result.user);
         })
@@ -22,6 +24,24 @@ const Register = () => {
             console.log(error.message);
         })
     }
+
+    // const handleRegister = e => {
+    //     e.preventDefault();
+
+    //     const email = e.target.email.value;
+    //     const password = e.target.password.value;
+
+    //     console.log(email, password);
+
+    //     // create user
+    //     createUserWithEmailAndPassword(auth, email, password)
+    //     .then(result => {
+    //         console.log(result.user);
+    //     })
+    //     .catch(error => {
+    //         console.log(error.message);
+    //     })
+    // }
 
     return (
     <div className="card bg-base-100 w-full mx-auto mt-12 max-w-sm shrink-0 shadow-2xl">
